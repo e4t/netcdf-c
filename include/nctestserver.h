@@ -38,7 +38,7 @@ static int timedping(const char* url, long timeout);
 static char**
 parseServers(const char* remotetestservers)
 {
-    char* rts;
+    char* rts = NULL;
     char** servers = NULL;
     char** list = NULL;
     char* p;
@@ -49,7 +49,7 @@ parseServers(const char* remotetestservers)
     /* Keep LGTM quiet */
     if(rtslen > MAXREMOTETESTSERVERS) goto done;
     list = (char**)malloc(sizeof(char*) * (int)(rtslen/2));
-    if(list == NULL) return NULL;
+    if(list == NULL) goto done;
     rts = strdup(remotetestservers);
     if(rts == NULL) goto done;
     l = list;
@@ -66,8 +66,8 @@ parseServers(const char* remotetestservers)
     servers = list;
     list = NULL;
 done:
-    if(rts) free(rts);
-    if(list) free(list);
+    free(rts);
+    free(list);
     return servers;
 }
 
