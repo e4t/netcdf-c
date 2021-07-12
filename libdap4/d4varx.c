@@ -126,8 +126,8 @@ getvarx(int ncid, int varid, NCD4INFO** infop, NCD4node** varp,
 {
     int ret = NC_NOERR;
     NC* ncp;
-    NCD4INFO* info;
-    NCD4meta* meta;
+    NCD4INFO* info = NULL;
+    NCD4meta* meta = NULL;
     NCD4node* group;
     NCD4node* var;
     NCD4node* type;
@@ -186,7 +186,7 @@ getvarx(int ncid, int varid, NCD4INFO** infop, NCD4node** varp,
     if(nc4sizep) *nc4sizep = instancesize;
     if(varp) *varp = var;
 done:
-    if(meta->error.message != NULL)
+    if(meta != NULL && meta->error.message != NULL)
 	NCD4_reporterror(info);    /* Make sure the user sees this */
     return THROW(ret);    
 }
